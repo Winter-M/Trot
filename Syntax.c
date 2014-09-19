@@ -1,4 +1,5 @@
 
+# include <stdio.h>
 # include <stdint.h>
 # include <stdlib.h>
 
@@ -6,7 +7,10 @@
 
 pt_node *createNode(pt_node_type type, void *value) {
 	pt_node *node = malloc(sizeof(pt_node));
-	if(node == NULL) return NULL;
+	if(node == NULL) {
+		perror("malloc");
+		return NULL;
+	}
 
 	node->type = type;
 	node->u.value = value;
@@ -15,7 +19,7 @@ pt_node *createNode(pt_node_type type, void *value) {
 	node->next = node->last = NULL;
 	node->child = NULL;
 
-	return NULL;
+	return node;
 }
 
 pt_node *createDecimal(double value) {

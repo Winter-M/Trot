@@ -9,8 +9,8 @@ pt_node *buildAST(const char *expr) {
 	extern int yyparse(pt_node **, yyscan_t);
 
 	FILE *file;
-	pt_node *node;
 	yyscan_t scanner;
+	pt_node *node = NULL;
 	YY_BUFFER_STATE state;
 
 	if(yylex_init(&scanner)) {

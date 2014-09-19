@@ -98,7 +98,10 @@ pt_value visitIdentifier(pt_node *node) {
 
 	if(symbol.type == PT_UNDEF) {
 		pt_native *native = resolveNative(name.u.string);
-		if(native == NULL) return UNDEF;
+		if(native == NULL) {
+			fprintf(stderr, "Symbol %s not found.\n", name.u.string);
+			exit(EXIT_FAILURE);
+		}
 
 		symbol.type = PT_LAMBDA;
 		symbol.u.lambda = native->lambda;
@@ -111,19 +114,24 @@ pt_value visitExpression(pt_node *node) {
 	int idx;
 	pt_value value;
 	pt_lambda *lambda;
-	pt_node *ident = node;
+	pt_node *ident = node->child;
 	pt_node *args = ident->next;
 
 	value = visitNode(ident);
 	if(value.type != PT_LAMBDA) {
-		/* TODO */
+		fprintf(stderr, "Internal type mismatch.\n");
 		return UNDEF;
 	}
 
 	lambda = value.u.lambda;
+	if(lambda == NULL) {
+		fprintf(stderr, "Unresolved symbol.\n");
+		return UNDEF;
+	}
+
 	if(lambda->arg_count != -1 &&
 			lambda->arg_count != ident->count - 1) {
-		/* TODO */
+		fprintf(stderr, "Argument count mismatch.\n");
 		return UNDEF;
 	}
 
