@@ -1,36 +1,10 @@
 
-# include <stdbool.h>
 # include <stdlib.h>
 # include <string.h>
 
-# include "Syntax.h"
 # include "Lambda.h"
-
-# ifndef __cplusplus
-typedef struct pt_value pt_value;
-typedef struct pt_double pt_double;
-# endif /* C++ */
-
-struct pt_value {
-	pt_node_type type;
-
-	union {
-		bool boolean;
-		char *string;
-		long int integer;
-
-		pt_lambda *lambda;
-		pt_node *expression;
-
-		void *value;
-		char pad[sizeof(double)];
-	};
-};
-
-struct pt_double {
-	pt_node_type type;
-	double decimal;
-};
+# include "Syntax.h"
+# include "Symbols.h"
 
 pt_value ZERO = { type : PT_INTEGER, value : 0 };
 pt_value NIL  = { type : PT_UNDEF,   value : 0 };

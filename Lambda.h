@@ -1,6 +1,8 @@
 # ifndef __LAMBDA_H__
 # define __LAMBDA_H__
 
+# include "Syntax.h"
+
 # ifndef __cplusplus
 typedef enum pt_lambda_type pt_lambda_type;
 typedef struct pt_lambda pt_lambda;
