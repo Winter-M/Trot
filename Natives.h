@@ -29,7 +29,7 @@ struct pt_native {
 	} u;
 };
 
-pt_native *createNative(pt_native_type type, int argc);
+pt_native *createNative(pt_native_type type, char *name, int argc);
 
 void deleteNative(pt_native *native);
 

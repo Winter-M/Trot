@@ -180,10 +180,11 @@ pt_value visitNode(pt_node *node) {
 }
 
 int visitRoot(pt_node *node) {
+	pt_value result;
 	while(node != NULL) {
-		visitNode(node);
+		result = visitNode(node);
 		node = node->next;
 	}
 
-	return 0;
+	return result.u.integer;
 }

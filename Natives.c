@@ -40,7 +40,7 @@ void deleteNativeNode(pt_native_node *node) {
 	free(node);
 }
 
-pt_native *createNative(pt_native_type type, int argc) {
+pt_native *createNative(pt_native_type type, char *name, int argc) {
 	pt_lambda *lambda;
 	pt_native *native = malloc(sizeof(pt_native));
 	if(native == NULL) return NULL;
@@ -58,7 +58,7 @@ pt_native *createNative(pt_native_type type, int argc) {
 	lambda->u.native = native;
 
 	native->type = type;
-	native->name = NULL;
+	native->name = name;
 	native->lambda = lambda;
 	native->u.function = NULL;
 

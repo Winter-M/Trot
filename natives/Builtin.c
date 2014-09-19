@@ -97,7 +97,7 @@ pt_value __native_operator_plus(pt_node *node, int count) {
 
 static
 pt_native *__create_operator_plus() {
-	pt_native *native = createNative(PNT_EXTENSION, -1);
+	pt_native *native = createNative(PNT_EXTENSION, "+", -1);
 	if(native == NULL) return NULL;
 
 	native->u.extension = __native_operator_plus;
@@ -115,5 +115,4 @@ void registerNatives() {
 	}
 
 	registerNative(native);
-	fprintf(stderr, "Registered native.\n");
 }
