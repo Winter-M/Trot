@@ -14,6 +14,8 @@ typedef struct pt_node_double pt_node_double;
 enum pt_node_type {
 	PT_UNDEF = -1,
 
+	PT_NIL,
+
 	PT_BOOLEAN,
 	PT_INTEGER,
 	PT_DECIMAL,

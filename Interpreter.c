@@ -6,8 +6,8 @@
 # include "Syntax.h"
 # include "Symbols.h"
 
-pt_value ZERO = { type : PT_INTEGER, value : 0 };
-pt_value NIL  = { type : PT_UNDEF,   value : 0 };
+pt_value UNDEF = { type : PT_UNDEF, value : 0 };
+pt_value NIL   = { type : PT_NIL,   value : 0 };
 
 pt_value visitTerminal(pt_node *node) {
 	pt_value value = { type : node->type, value : node->value };
@@ -29,19 +29,19 @@ pt_value visitLambda(pt_node *node) {
 	pt_node *keyword, *args, *body;
 	if(node->count != 3) {
 		/* TODO */
-		return NIL;
+		return UNDEF;
 	}
 
 	body = (args = (keyword = node)->next)->next;
 	if(args->type != PT_EXPR || body->type != PT_EXPR) {
 		/* TODO */
-		return NIL;
+		return UNDEF;
 	}
 
 	lambda = malloc(sizeof(pt_lambda));
 	if(lambda == NULL) {
 		/* TODO */
-		return NIL;
+		return UNDEF;
 	}
 
 	args = args->child;
@@ -50,7 +50,7 @@ pt_value visitLambda(pt_node *node) {
 	if(lambda->arguments == NULL) {
 		/* TODO */
 		free(lambda);
-		return NIL;
+		return UNDEF;
 	}
 
 	for(idx = 0; idx < lambda->arg_count; idx++) {
@@ -58,7 +58,7 @@ pt_value visitLambda(pt_node *node) {
 			/* TODO */
 			free(lambda->arguments);
 			free(lambda);
-			return NIL;
+			return UNDEF;
 		}
 
 		pt_value name = visitTerminal(args);
@@ -72,11 +72,11 @@ pt_value visitLambda(pt_node *node) {
 }
 
 pt_value visitIdentifier(pt_node *node) {
-	return ZERO;
+	return UNDEF;
 }
 
 pt_value visitExpression(pt_node *node) {
-	return ZERO;
+	return UNDEF;
 }
 
 pt_value visitNode(pt_node *node) {

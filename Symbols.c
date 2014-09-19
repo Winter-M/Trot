@@ -4,8 +4,10 @@
 
 # include "Symbols.h"
 
+# ifndef __cplusplus
 typedef struct pt_context_node pt_context_node;
 typedef struct pt_context_elem pt_context_elem;
+# endif /* C++ */
 
 struct pt_context {
 	pt_context_node *head;
@@ -123,7 +125,7 @@ long int computeHash(char *name) {
 
 static
 pt_value *contextElement(pt_context *context, char *name) {
-	extern pt_value NIL;
+	extern pt_value UNDEF;
 
 	pt_context_node *node = context->tail;
 	pt_context_elem *elem = node->head;
@@ -135,7 +137,7 @@ pt_value *contextElement(pt_context *context, char *name) {
 		}
 	}
 
-	elem = createContextElem(NIL);
+	elem = createContextElem(UNDEF);
 	if(elem == NULL) return NULL;
 
 	elem->hash = hash;
@@ -160,7 +162,7 @@ void registerSymbol(pt_context *context, char *name, pt_value value) {
 }
 
 pt_value resolveSymbol(pt_context *context, char *name) {
-	extern pt_value NIL;
+	extern pt_value UNDEF;
 
 	pt_context_node *node = context->tail;
 	int hash = computeHash(name);
@@ -177,5 +179,5 @@ pt_value resolveSymbol(pt_context *context, char *name) {
 		node = node->prev;
 	}
 
-	return NIL;
+	return UNDEF;
 }
