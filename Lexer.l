@@ -1,10 +1,10 @@
 
 %{
-# include "Trot.h"
-# include "Parser.h"
-
 # include <stdio.h>
 # include <string.h>
+
+# include "Syntax.h"
+# include "Parser.h"
 %}
 
 %option outfile = "Lexer.c" header-file = "Lexer.h"

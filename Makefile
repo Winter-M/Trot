@@ -1,13 +1,18 @@
 
+CFLAGS = -O2 -Wall -Werror -Wextra -Wno-unused-parameter -Wno-unused-function -ansi
+
 all: test
 
 clean:
-	rm -f Lexer.[ch] Parser.[ch]
+	rm -f Lexer.[ch] Parser.[ch] *.o
 
-test: Lexer.c Parser.c
+test: Lexer.o Parser.o Syntax.o
 
-Lexer.c: Lexer.l
+Lexer.o: Lexer.c Parser.h
+	$(CC) $(CFLAGS) $(CPPFLAGS)  -c -o Lexer.o Lexer.c
+
+Lexer.h Lexer.c: Lexer.l
 	flex Lexer.l
 
-Parser.c: Parser.y Lexer.c
+Parser.h Parser.c: Parser.y Lexer.c
 	bison Parser.y

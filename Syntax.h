@@ -1,7 +1,11 @@
 # ifndef __SYNTAX_H__
 # define __SYNTAX_H__
 
-# indef __cplusplus
+# ifndef __cplusplus
+# include <stdint.h>
+typedef uint32_t off_t;
+typedef uint64_t off64_t;
+
 typedef struct pt_node pt_node;
 typedef enum pt_node_type pt_node_type;
 typedef struct pt_node_double pt_node_double;
@@ -25,12 +29,13 @@ struct pt_node {
 	pt_node_type type;
 	union {
 		void *value;
-		int children;
 		char pad[sizeof(double)];
 	};
 
 	int lineno, offset;
 	pt_node *next, *last;
+
+	int children;
 	pt_node *child;
 };
 
@@ -40,6 +45,8 @@ struct pt_node_double {
 
 	int lineno, offset;
 	pt_node *next, *last;
+
+	int children;
 	pt_node *child;
 };
 

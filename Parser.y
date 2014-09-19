@@ -1,10 +1,10 @@
 
 %{
-# include "Trot.h"
+# include <stdio.h>
+
+# include "Syntax.h"
 # include "Parser.h"
 # include "Lexer.h"
-
-# include <stdio.h>
 
 int yyerror(pt_node **node, yyscan_t scanner, const char *msg) {
 	fprintf(stderr, "Error : %s.\n", msg);
@@ -61,12 +61,12 @@ expression
 	{ $$ = createExpr(); $$->child = $2; }
 	| TOKEN_LPAREN TOKEN_LAMBDA expression_list TOKEN_RPAREN
 	{ $$ = createExpr(); $$->type = PT_LAMBDA; $$->child = $3; }
-	| TOKEN_FLOAT
-	{ $$ = createFloat($1); }
 	| TOKEN_BOOLEAN
 	{ $$ = createBoolean($1); }
 	| TOKEN_INTEGER
 	{ $$ = createInteger($1); }
+	| TOKEN_FLOAT
+	{ $$ = createDecimal($1); }
 	| TOKEN_STRING
 	{ $$ = createString($1); }
 	| TOKEN_IDENT
@@ -75,9 +75,9 @@ expression
 
 expression_list
 	:	expression_list expression
-	{ $$ = $1; $1->last->next = $2; $1->last = $2; $1->count++; }
+	{ $$ = $1; $1->last->next = $2; $1->last = $2; $1->children++; }
 	|	expression
-	{ $$ = $1; $1->last = $1; $1->count = 1; }
+	{ $$ = $1; $1->last = $1; $1->children = 1; }
 	;
 
 %%
