@@ -35,7 +35,7 @@ struct pt_node {
 	int lineno, offset;
 	pt_node *next, *last;
 
-	int children;
+	int count;
 	pt_node *child;
 };
 
@@ -46,7 +46,7 @@ struct pt_node_double {
 	int lineno, offset;
 	pt_node *next, *last;
 
-	int children;
+	int count;
 	pt_node *child;
 };
 

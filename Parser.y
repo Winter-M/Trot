@@ -75,9 +75,9 @@ expression
 
 expression_list
 	:	expression_list expression
-	{ $$ = $1; $1->last->next = $2; $1->last = $2; $1->children++; }
+	{ $$ = $1; $1->last->next = $2; $1->last = $2; $1->count++; }
 	|	expression
-	{ $$ = $1; $1->last = $1; $1->children = 1; }
+	{ $$ = $1; $1->last = $1; $1->count = 1; }
 	;
 
 %%
