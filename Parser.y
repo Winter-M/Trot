@@ -53,31 +53,50 @@ int yyerror(pt_node **node, yyscan_t scanner, const char *msg) {
 %%
 
 compilationUnit
-	: expression_list { *node = $1; }
+	: expression_list {
+		*node = $1;
+	}
 	;
 
 expression
-	: TOKEN_LPAREN expression_list TOKEN_RPAREN
-	{ $$ = createExpr(); $$->child = $2; }
-	| TOKEN_LPAREN TOKEN_LAMBDA expression_list TOKEN_RPAREN
-	{ $$ = createExpr(); $$->type = PT_LAMBDA; $$->child = $3; }
-	| TOKEN_BOOLEAN
-	{ $$ = createBoolean($1); }
-	| TOKEN_INTEGER
-	{ $$ = createInteger($1); }
-	| TOKEN_FLOAT
-	{ $$ = createDecimal($1); }
-	| TOKEN_STRING
-	{ $$ = createString($1); }
-	| TOKEN_IDENT
-	{ $$ = createIdent($1); }
+	: TOKEN_LPAREN expression expression_list TOKEN_RPAREN {
+		$$ = createExpr();
+		$$->child = $2;
+
+		$2->count = $3->count + 1;
+		$2->next = $3;
+	}
+	| TOKEN_LPAREN TOKEN_LAMBDA expression_list TOKEN_RPAREN {
+		$$ = createExpr();
+		$$->type = PT_LAMBDA;
+		$$->child = $3;
+	}
+	| TOKEN_BOOLEAN {
+		$$ = createBoolean($1);
+	}
+	| TOKEN_INTEGER {
+		$$ = createInteger($1);
+	}
+	| TOKEN_FLOAT {
+		$$ = createDecimal($1);
+	}
+	| TOKEN_STRING {
+		$$ = createString($1);
+	}
 	;
 
 expression_list
-	:	expression_list expression
-	{ $$ = $1; $1->last->next = $2; $1->last = $2; $1->count++; }
-	|	expression
-	{ $$ = $1; $1->last = $1; $1->count = 1; }
+	: expression_list expression {
+		$$ = $1;
+		$1->last->next = $2;
+		$1->last = $2;
+		$1->count++;
+	}
+	| expression {
+		$$ = $1;
+		$1->last = $1;
+		$1->count = 1;
+	}
 	;
 
 %%

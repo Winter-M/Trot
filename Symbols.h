@@ -42,7 +42,7 @@ pt_context *pushContext(pt_context *context);
 
 pt_context *popContext(pt_context *context);
 
-void registerSymbol(pt_context *context, char *name, pt_value);
+void registerSymbol(pt_context *context, char *name, pt_value value);
 
 pt_value resolveSymbol(pt_context *context, char *name);
 

@@ -6,8 +6,19 @@
 # include "Syntax.h"
 # include "Symbols.h"
 
+pt_context *context;
+
 pt_value UNDEF = { type : PT_UNDEF, value : 0 };
 pt_value NIL   = { type : PT_NIL,   value : 0 };
+
+__attribute__((constructor))
+void prepareInterpreter() {
+	context = createContext();
+	if(context == NULL) {
+		/* TODO */
+		exit(-1);
+	}
+}
 
 pt_value visitTerminal(pt_node *node) {
 	pt_value value = { type : node->type, value : node->value };
@@ -72,7 +83,8 @@ pt_value visitLambda(pt_node *node) {
 }
 
 pt_value visitIdentifier(pt_node *node) {
-	return UNDEF;
+	pt_value name = visitTerminal(node);
+	return resolveSymbol(context, name.string);
 }
 
 pt_value visitExpression(pt_node *node) {
