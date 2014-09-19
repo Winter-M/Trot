@@ -20,6 +20,7 @@ typedef enum {
 
 struct pt_native {
 	pt_native_type type;
+	void *lambda;
 	char *name;
 
 	union {
@@ -28,7 +29,7 @@ struct pt_native {
 	} u;
 };
 
-pt_native *createNative(pt_native_type type);
+pt_native *createNative(pt_native_type type, int argc);
 
 void deleteNative(pt_native *native);
 

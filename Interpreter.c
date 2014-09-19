@@ -5,6 +5,7 @@
 
 # include "Lambda.h"
 # include "Syntax.h"
+# include "Natives.h"
 # include "Symbols.h"
 # include "Interpreter.h"
 
@@ -92,8 +93,18 @@ pt_value visitLambda(pt_node *node) {
 }
 
 pt_value visitIdentifier(pt_node *node) {
-	pt_value name = visitTerminal(node);
-	return resolveSymbol(context, name.u.string);
+	pt_value symbol, name = visitTerminal(node);
+	symbol = resolveSymbol(context, name.u.string);
+
+	if(symbol.type == PT_UNDEF) {
+		pt_native *native = resolveNative(name.u.string);
+		if(native == NULL) return UNDEF;
+
+		symbol.type = PT_LAMBDA;
+		symbol.u.lambda = native->lambda;
+	}
+
+	return symbol;
 }
 
 pt_value visitExpression(pt_node *node) {
@@ -135,7 +146,7 @@ pt_value visitExpression(pt_node *node) {
 			popContext(context);
 			break;
 		case PLT_BUILTIN:
-			/* TODO */
+			value = invokeNative(lambda->u.native, args);
 			break;
 		default:
 			/* TODO */

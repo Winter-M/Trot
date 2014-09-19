@@ -22,7 +22,7 @@ struct pt_lambda {
 
 	union {
 		pt_node *body;
-		void *builtin;
+		void *native;
 	} u;
 };
 

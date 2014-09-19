@@ -40,12 +40,26 @@ void deleteNativeNode(pt_native_node *node) {
 	free(node);
 }
 
-pt_native *createNative(pt_native_type type) {
+pt_native *createNative(pt_native_type type, int argc) {
+	pt_lambda *lambda;
 	pt_native *native = malloc(sizeof(pt_native));
 	if(native == NULL) return NULL;
 
+	lambda = malloc(sizeof(pt_lambda));
+	if(lambda == NULL) {
+		/* TODO */
+		free(native);
+		return NULL;
+	}
+
+	lambda->type = PLT_BUILTIN;
+	lambda->arg_count = argc;
+	lambda->arguments = NULL;
+	lambda->u.native = native;
+
 	native->type = type;
 	native->name = NULL;
+	native->lambda = lambda;
 	native->u.function = NULL;
 
 	return native;
