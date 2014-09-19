@@ -18,7 +18,8 @@ pt_lambda *createLambda(pt_lambda_type type) {
 
 void deleteLambda(pt_lambda *lambda) {
 	if(lambda == NULL) return;
-	if(lambda->type == PLT_LAMBDA)
+	if(lambda->arguments != NULL) free(lambda->arguments);
+	if(lambda->type == PLT_LAMBDA && lambda->body != NULL)
 		deleteNode(lambda->body);
 	free(lambda);
 }
