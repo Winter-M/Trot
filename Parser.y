@@ -59,12 +59,9 @@ compilationUnit
 	;
 
 expression
-	: TOKEN_LPAREN expression expression_list TOKEN_RPAREN {
+	: TOKEN_LPAREN expression_list TOKEN_RPAREN {
 		$$ = createExpr();
 		$$->child = $2;
-
-		$2->count = $3->count + 1;
-		$2->next = $3;
 	}
 	| TOKEN_LPAREN TOKEN_LAMBDA expression_list TOKEN_RPAREN {
 		$$ = createExpr();
@@ -82,6 +79,9 @@ expression
 	}
 	| TOKEN_STRING {
 		$$ = createString($1);
+	}
+	| TOKEN_IDENT {
+		$$ = createIdent($1);
 	}
 	;
 

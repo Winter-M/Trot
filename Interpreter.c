@@ -171,3 +171,11 @@ pt_value visitNode(pt_node *node) {
 	}
 }
 
+int visitRoot(pt_node *node) {
+	while(node != NULL) {
+		visitNode(node);
+		node = node->next;
+	}
+
+	return 0;
+}

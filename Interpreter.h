@@ -6,4 +6,6 @@
 
 pt_value visitNode(pt_node *node);
 
+int visitRoot(pt_node *node);
+
 # endif /* Interpreter.h */

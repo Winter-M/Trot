@@ -3,6 +3,8 @@
 # include "Parser.h"
 # include "Lexer.h"
 
+# include "Interpreter.h"
+
 pt_node *buildAST(const char *expr) {
 	extern int yyparse(pt_node **, yyscan_t);
 
@@ -36,6 +38,13 @@ pt_node *buildAST(const char *expr) {
 	return node;
 }
 
-int main() {
-	return 0;
+int main(int argc, char **argv) {
+	pt_node *node;
+	if(argc < 2) {
+		fprintf(stderr, "Argument required.\n");
+		return -1;
+	}
+
+	node = buildAST(argv[1]);
+	return visitRoot(node);
 }
