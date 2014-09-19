@@ -7,7 +7,7 @@ all: test
 clean:
 	rm -f Lexer.[ch] Parser.[ch] *.o
 
-test: Lexer.o Parser.o Syntax.o Interpreter.o Lambda.o Symbols.o Main.o
+test: Lexer.o Parser.o Syntax.o Interpreter.o Lambda.o Symbols.o Natives.o Main.o
 
 %.o: %.c %.h Parser.h
 	$(CC) $(CFLAGS) $(CPPFLAGS)  -c -o $@ $<

@@ -1,4 +1,5 @@
 
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 
@@ -39,12 +40,13 @@ pt_value visitLambda(pt_node *node) {
 	pt_value value;
 	pt_lambda *lambda;
 	pt_node *keyword, *args, *body;
+
+	body = (args = (keyword = node)->next)->next;
 	if(args->count != 2) {
-		fpritnf(stderr, "Lambda declarations must have 2 arguments, %d found.\n", node->count);
+		fprintf(stderr, "Lambda declarations must have 2 arguments, %d found.\n", node->count);
 		return UNDEF;
 	}
 
-	body = (args = (keyword = node)->next)->next;
 	if(args->type != PT_EXPR || body->type != PT_EXPR) {
 		fprintf(stderr, "Argument type mismatch.\n");
 		return UNDEF;
