@@ -26,7 +26,7 @@ struct pt_value {
 
 		void *value;
 		char pad[sizeof(double)];
-	};
+	} u;
 };
 
 struct pt_double {

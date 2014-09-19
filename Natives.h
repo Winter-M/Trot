@@ -6,18 +6,17 @@
 
 # ifndef __cplusplus
 typedef struct pt_native pt_native;
-typedef enum pt_native_type pt_native_type;
 # endif /* C++ */
 
 typedef pt_value (* pt_native_function)(pt_value *values, int count);
 typedef pt_value (* pt_native_extension)(pt_node *node, int count);
 
-enum pt_native_type {
+typedef enum {
 	PNT_UNDEF = -1,
 
 	PNT_FUNCTION,
 	PNT_EXTENSION
-};
+} pt_native_type;
 
 struct pt_native {
 	pt_native_type type;
@@ -26,7 +25,7 @@ struct pt_native {
 	union {
 		pt_native_function function;
 		pt_native_extension extension;
-	};
+	} u;
 };
 
 pt_native *createNative(pt_native_type type);

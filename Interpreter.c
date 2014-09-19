@@ -10,8 +10,8 @@
 
 pt_context *context;
 
-pt_value UNDEF = { type : PT_UNDEF, value : 0 };
-pt_value NIL   = { type : PT_NIL,   value : 0 };
+pt_value UNDEF = { PT_UNDEF, { 0 } };
+pt_value NIL   = { PT_NIL,   { 0 } };
 
 __attribute__((constructor))
 void prepareInterpreter() {
@@ -23,14 +23,19 @@ void prepareInterpreter() {
 }
 
 pt_value visitTerminal(pt_node *node) {
-	pt_value value = { type : node->type, value : node->value };
+	pt_value value;
+	value.type = node->type;
+	value.u.value = node->u.value;
 	return value;
 }
 
 pt_value visitDecimal(pt_node *node) {
 	pt_value value;
+	pt_double decimal;
 	pt_node_double *nd = (pt_node_double *)node;
-	pt_double decimal = { type : PT_DECIMAL, nd->value };
+
+	decimal.type = PT_DECIMAL;
+	decimal.decimal = nd->value;
 	memcpy(&value, &decimal, sizeof(pt_node));
 	return value;
 }
@@ -68,6 +73,7 @@ pt_value visitLambda(pt_node *node) {
 	}
 
 	for(idx = 0; idx < lambda->arg_count; idx++) {
+		pt_value name;
 		if(args->type != PT_IDENT) {
 			/* TODO */
 			free(lambda->arguments);
@@ -75,19 +81,19 @@ pt_value visitLambda(pt_node *node) {
 			return UNDEF;
 		}
 
-		pt_value name = visitTerminal(args);
-		lambda->arguments[idx] = name.string;
+		name = visitTerminal(args);
+		lambda->arguments[idx] = name.u.string;
 	}
 
 	value.type = PT_LAMBDA;
-	value.lambda = lambda;
+	value.u.lambda = lambda;
 
 	return value;
 }
 
 pt_value visitIdentifier(pt_node *node) {
 	pt_value name = visitTerminal(node);
-	return resolveSymbol(context, name.string);
+	return resolveSymbol(context, name.u.string);
 }
 
 pt_value visitExpression(pt_node *node) {
@@ -103,7 +109,7 @@ pt_value visitExpression(pt_node *node) {
 		return UNDEF;
 	}
 
-	lambda = value.lambda;
+	lambda = value.u.lambda;
 	if(lambda->arg_count != -1 &&
 			lambda->arg_count != ident->count - 1) {
 		/* TODO */
@@ -125,7 +131,7 @@ pt_value visitExpression(pt_node *node) {
 				args = args->next;
 			}
 
-			value = visitNode(lambda->body);
+			value = visitNode(lambda->u.body);
 			popContext(context);
 			break;
 		case PLT_BUILTIN:

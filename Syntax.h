@@ -7,11 +7,10 @@ typedef uint32_t off_t;
 typedef uint64_t off64_t;
 
 typedef struct pt_node pt_node;
-typedef enum pt_node_type pt_node_type;
 typedef struct pt_node_double pt_node_double;
 # endif /* C++ */
 
-enum pt_node_type {
+typedef enum {
 	PT_UNDEF = -1,
 
 	PT_NIL,
@@ -25,14 +24,14 @@ enum pt_node_type {
 
 	PT_LAMBDA,
 	PT_EXPR
-};
+} pt_node_type;
 
 struct pt_node {
 	pt_node_type type;
 	union {
 		void *value;
 		char pad[sizeof(double)];
-	};
+	} u;
 
 	int lineno, offset;
 	pt_node *next, *last;

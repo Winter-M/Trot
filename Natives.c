@@ -46,7 +46,7 @@ pt_native *createNative(pt_native_type type) {
 
 	native->type = type;
 	native->name = NULL;
-	native->function = NULL;
+	native->u.function = NULL;
 
 	return native;
 }
@@ -111,10 +111,10 @@ pt_value invokeNative(pt_native *native, pt_node *node) {
 					args = args->next;
 				}
 
-				return native->function(values, count);
+				return native->u.function(values, count);
 			}
 		case PNT_EXTENSION:
-			return native->extension(node, node->count);
+			return native->u.extension(node, node->count);
 		default:
 			/* TODO */
 			return UNDEF;

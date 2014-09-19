@@ -1,6 +1,6 @@
 
 # -Wno-unused-X flags are necessary since flex and bison code triggers these warnings
-CFLAGS = -O2 -Wall -Werror -Wextra -Wno-unused-parameter -Wno-unused-function -ansi
+CFLAGS = -O2 -Wall -Werror -Wextra -Wno-unused-parameter -Wno-unused-function -ansi -pedantic
 
 all: test
 
